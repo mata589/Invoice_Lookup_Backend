@@ -1,4 +1,10 @@
+# Ignore application properties
+src/main/resources/application.properties
+
+# Ignore HELP.md
 HELP.md
+
+# existing rules
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

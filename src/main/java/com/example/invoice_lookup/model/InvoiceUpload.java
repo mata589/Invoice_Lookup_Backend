@@ -1,7 +1,5 @@
 package com.example.invoice_lookup.model;
 
-
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -150,5 +148,372 @@ public class InvoiceUpload {
     @Column(name = "Period")
     private String period;
 
-    // getters and setters here
+    // Manual Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getDebitNo() {
+        return debitNo;
+    }
+
+    public void setDebitNo(Integer debitNo) {
+        this.debitNo = debitNo;
+    }
+
+    public Integer getProcessStatus() {
+        return processStatus;
+    }
+
+    public void setProcessStatus(Integer processStatus) {
+        this.processStatus = processStatus;
+    }
+
+    public Boolean getUpdateStatus() {
+        return updateStatus;
+    }
+
+    public void setUpdateStatus(Boolean updateStatus) {
+        this.updateStatus = updateStatus;
+    }
+
+    public String getUpdateComments() {
+        return updateComments;
+    }
+
+    public void setUpdateComments(String updateComments) {
+        this.updateComments = updateComments;
+    }
+
+    public String getInvoiceNo() {
+        return invoiceNo;
+    }
+
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
+    }
+
+    public String getAntifakeCode() {
+        return antifakeCode;
+    }
+
+    public void setAntifakeCode(String antifakeCode) {
+        this.antifakeCode = antifakeCode;
+    }
+
+    public String getDeviceNo() {
+        return deviceNo;
+    }
+
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo;
+    }
+
+    public LocalDateTime getIssuedDate() {
+        return issuedDate;
+    }
+
+    public void setIssuedDate(LocalDateTime issuedDate) {
+        this.issuedDate = issuedDate;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getOriInvoiceId() {
+        return oriInvoiceId;
+    }
+
+    public void setOriInvoiceId(String oriInvoiceId) {
+        this.oriInvoiceId = oriInvoiceId;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getInvoiceKind() {
+        return invoiceKind;
+    }
+
+    public void setInvoiceKind(String invoiceKind) {
+        this.invoiceKind = invoiceKind;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public String getInvoiceIndustryCode() {
+        return invoiceIndustryCode;
+    }
+
+    public void setInvoiceIndustryCode(String invoiceIndustryCode) {
+        this.invoiceIndustryCode = invoiceIndustryCode;
+    }
+
+    public String getIsBatch() {
+        return isBatch;
+    }
+
+    public void setIsBatch(String isBatch) {
+        this.isBatch = isBatch;
+    }
+
+    public String getBuyerTin() {
+        return buyerTin;
+    }
+
+    public void setBuyerTin(String buyerTin) {
+        this.buyerTin = buyerTin;
+    }
+
+    public String getBuyerNinBrn() {
+        return buyerNinBrn;
+    }
+
+    public void setBuyerNinBrn(String buyerNinBrn) {
+        this.buyerNinBrn = buyerNinBrn;
+    }
+
+    public String getBuyerPassportNum() {
+        return buyerPassportNum;
+    }
+
+    public void setBuyerPassportNum(String buyerPassportNum) {
+        this.buyerPassportNum = buyerPassportNum;
+    }
+
+    public String getBuyerLegalName() {
+        return buyerLegalName;
+    }
+
+    public void setBuyerLegalName(String buyerLegalName) {
+        this.buyerLegalName = buyerLegalName;
+    }
+
+    public String getBuyerBusinessName() {
+        return buyerBusinessName;
+    }
+
+    public void setBuyerBusinessName(String buyerBusinessName) {
+        this.buyerBusinessName = buyerBusinessName;
+    }
+
+    public String getBuyerAddress() {
+        return buyerAddress;
+    }
+
+    public void setBuyerAddress(String buyerAddress) {
+        this.buyerAddress = buyerAddress;
+    }
+
+    public String getBuyerEmail() {
+        return buyerEmail;
+    }
+
+    public void setBuyerEmail(String buyerEmail) {
+        this.buyerEmail = buyerEmail;
+    }
+
+    public String getBuyerMobilePhone() {
+        return buyerMobilePhone;
+    }
+
+    public void setBuyerMobilePhone(String buyerMobilePhone) {
+        this.buyerMobilePhone = buyerMobilePhone;
+    }
+
+    public String getBuyerLinePhone() {
+        return buyerLinePhone;
+    }
+
+    public void setBuyerLinePhone(String buyerLinePhone) {
+        this.buyerLinePhone = buyerLinePhone;
+    }
+
+    public String getBuyerPlaceOfBusi() {
+        return buyerPlaceOfBusi;
+    }
+
+    public void setBuyerPlaceOfBusi(String buyerPlaceOfBusi) {
+        this.buyerPlaceOfBusi = buyerPlaceOfBusi;
+    }
+
+    public String getBuyerType() {
+        return buyerType;
+    }
+
+    public void setBuyerType(String buyerType) {
+        this.buyerType = buyerType;
+    }
+
+    public String getBuyerCitizenship() {
+        return buyerCitizenship;
+    }
+
+    public void setBuyerCitizenship(String buyerCitizenship) {
+        this.buyerCitizenship = buyerCitizenship;
+    }
+
+    public String getBuyerSector() {
+        return buyerSector;
+    }
+
+    public void setBuyerSector(String buyerSector) {
+        this.buyerSector = buyerSector;
+    }
+
+    public String getBuyerReferenceNo() {
+        return buyerReferenceNo;
+    }
+
+    public void setBuyerReferenceNo(String buyerReferenceNo) {
+        this.buyerReferenceNo = buyerReferenceNo;
+    }
+
+    public Double getsNetAmount() {
+        return sNetAmount;
+    }
+
+    public void setsNetAmount(Double sNetAmount) {
+        this.sNetAmount = sNetAmount;
+    }
+
+    public Double getsTaxAmount() {
+        return sTaxAmount;
+    }
+
+    public void setsTaxAmount(Double sTaxAmount) {
+        this.sTaxAmount = sTaxAmount;
+    }
+
+    public Double getsGrossAmount() {
+        return sGrossAmount;
+    }
+
+    public void setsGrossAmount(Double sGrossAmount) {
+        this.sGrossAmount = sGrossAmount;
+    }
+
+    public Integer getsItemCount() {
+        return sItemCount;
+    }
+
+    public void setsItemCount(Integer sItemCount) {
+        this.sItemCount = sItemCount;
+    }
+
+    public String getsModeCode() {
+        return sModeCode;
+    }
+
+    public void setsModeCode(String sModeCode) {
+        this.sModeCode = sModeCode;
+    }
+
+    public String getsRemarks() {
+        return sRemarks;
+    }
+
+    public void setsRemarks(String sRemarks) {
+        this.sRemarks = sRemarks;
+    }
+
+    public String getsQrCode() {
+        return sQrCode;
+    }
+
+    public void setsQrCode(String sQrCode) {
+        this.sQrCode = sQrCode;
+    }
+
+    public String getPwPaymentMode() {
+        return pwPaymentMode;
+    }
+
+    public void setPwPaymentMode(String pwPaymentMode) {
+        this.pwPaymentMode = pwPaymentMode;
+    }
+
+    public Double getPwPaymentAmount() {
+        return pwPaymentAmount;
+    }
+
+    public void setPwPaymentAmount(Double pwPaymentAmount) {
+        this.pwPaymentAmount = pwPaymentAmount;
+    }
+
+    public String getPwOrderNumber() {
+        return pwOrderNumber;
+    }
+
+    public void setPwOrderNumber(String pwOrderNumber) {
+        this.pwOrderNumber = pwOrderNumber;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getReasonCode() {
+        return reasonCode;
+    }
+
+    public void setReasonCode(String reasonCode) {
+        this.reasonCode = reasonCode;
+    }
+
+    public String getOriginalInvoiceId() {
+        return originalInvoiceId;
+    }
+
+    public void setOriginalInvoiceId(String originalInvoiceId) {
+        this.originalInvoiceId = originalInvoiceId;
+    }
+
+    public String getQrcodepath() {
+        return qrcodepath;
+    }
+
+    public void setQrcodepath(String qrcodepath) {
+        this.qrcodepath = qrcodepath;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
 }

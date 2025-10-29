@@ -3,6 +3,7 @@ C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\InvoiceLookupApplication.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\ClearFolioRequest.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\CreditUpload.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\DebitNote.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\GoodsDetails.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\InvoiceRequest.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\InvoiceUpload.java
@@ -11,6 +12,7 @@ C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\ResetTransactionRequest.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\TaxDetails.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\ThirdPartyApiRequest.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\UpdateFieldRequest.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\model\VatProjectRequest.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\repository\CreditUploadRepository.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\repository\GoodsDetailsRepository.java
@@ -18,5 +20,6 @@ C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\repository\MedicalFoliosRepository.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\repository\TaxDetailsRepository.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\service\CreditNoteService.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\service\DebitNoteService.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\service\InvoiceUploadService.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\WebConfig.java

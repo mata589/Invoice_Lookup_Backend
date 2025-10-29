@@ -1,5 +1,6 @@
 package com.example.invoice_lookup.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class InvoiceUpload {
     private String deviceNo;
 
     @Column(name = "issuedDate")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime issuedDate;
 
     @Column(name = "operator")

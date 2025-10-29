@@ -4,6 +4,7 @@ com\example\invoice_lookup\model\ThirdPartyApiRequest$ReturnStateInfo.class
 com\example\invoice_lookup\WebConfig$1.class
 com\example\invoice_lookup\model\ThirdPartyApiRequest$DataDescription.class
 com\example\invoice_lookup\repository\CreditUploadRepository.class
+com\example\invoice_lookup\model\UpdateFieldRequest.class
 com\example\invoice_lookup\model\ResetTransactionRequest.class
 com\example\invoice_lookup\model\CreditUpload.class
 com\example\invoice_lookup\model\MedicalFolios.class
@@ -13,6 +14,7 @@ com\example\invoice_lookup\WebConfig.class
 com\example\invoice_lookup\repository\TaxDetailsRepository.class
 com\example\invoice_lookup\repository\MedicalFoliosRepository.class
 com\example\invoice_lookup\model\InvoiceRequest.class
+com\example\invoice_lookup\model\DebitNote.class
 com\example\invoice_lookup\model\ThirdPartyApiRequest.class
 com\example\invoice_lookup\service\InvoiceUploadService.class
 com\example\invoice_lookup\model\ThirdPartyApiRequest$ExtendField.class
@@ -25,6 +27,7 @@ com\example\invoice_lookup\model\GoodsDetails.class
 com\example\invoice_lookup\model\ThirdPartyApiRequest$Data.class
 com\example\invoice_lookup\repository\InvoiceUploadRepository.class
 com\example\invoice_lookup\model\ProjectInfo.class
+com\example\invoice_lookup\service\DebitNoteService.class
 com\example\invoice_lookup\service\CreditNoteService.class
 com\example\invoice_lookup\InvoiceLookupApplication.class
 com\example\invoice_lookup\repository\GoodsDetailsRepository.class

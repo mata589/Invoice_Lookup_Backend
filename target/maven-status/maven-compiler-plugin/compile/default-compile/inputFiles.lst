@@ -1,3 +1,17 @@
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\controller\AuthController.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\dto\AuthResponse.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\dto\LoginRequest.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\dto\RegisterRequest.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\dto\UserDTO.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\model\AuditLog.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\model\User.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\repository\AuditLogRepository.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\repository\UserRepository.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\auth\service\AuthService.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\config\AuthRepositoryConfig.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\config\DataSourceConfig.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\config\PrimaryRepositoryConfig.java
+C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\config\SecurityConfig.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\controller\InvoiceUploadController.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\controller\PrintController.java
 C:\Users\rkizito\Desktop\invoice_lookup\invoice_lookup\src\main\java\com\example\invoice_lookup\InvoiceLookupApplication.java

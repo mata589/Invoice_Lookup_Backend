@@ -1,8 +1,5 @@
 package com.example.invoice_lookup.auth.repository;
 
-
-
-
 import com.example.invoice_lookup.auth.model.AuditLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,5 +30,8 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
     List<AuditLog> findByActionAndStatus(@Param("action") String action, @Param("status") String status);
 
     @Query("SELECT a FROM AuditLog a WHERE a.applicationName = :applicationName AND a.timestamp BETWEEN :startDate AND :endDate ORDER BY a.timestamp DESC")
-    List<AuditLog> findByApplicationNameAndDateRange(@Param("applicationName") String applicationName, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    List<AuditLog> findByApplicationNameAndDateRange(
+            @Param("applicationName") String applicationName,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 }

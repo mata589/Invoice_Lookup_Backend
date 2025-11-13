@@ -1,7 +1,5 @@
 package com.example.invoice_lookup.auth.service;
 
-
-
 import com.example.invoice_lookup.auth.dto.*;
 import com.example.invoice_lookup.auth.model.AuditLog;
 import com.example.invoice_lookup.auth.model.User;
@@ -13,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -30,6 +30,10 @@ public class AuthService {
     private static final int MAX_FAILED_ATTEMPTS = 5;
     private static final int LOCK_TIME_MINUTES = 30;
 
+    /** ISO-8601 without zone – matches string format in DTOs */
+    private static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
     public AuthService(UserRepository userRepository,
                        AuditLogRepository auditLogRepository,
                        BCryptPasswordEncoder passwordEncoder) {
@@ -38,24 +42,28 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /* --------------------------------------------------------------------- */
+    /* --------------------------- LOGIN ----------------------------------- */
+    /* --------------------------------------------------------------------- */
     @Transactional("authTransactionManager")
     public AuthResponse login(LoginRequest request, String ipAddress, String userAgent) {
         Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
 
         if (userOpt.isEmpty()) {
-            logAudit(null, request.getUsername(), "LOGIN_FAILED", ipAddress, userAgent, "FAILED", "User not found");
+            logAudit(null, request.getUsername(), "LOGIN_FAILED", ipAddress, userAgent,
+                    "FAILED", "User not found");
             return new AuthResponse("error", "Invalid username or password");
         }
 
         User user = userOpt.get();
 
-        // Check if account is locked
+        // Account lock handling
         if (user.getAccountLocked() && user.getLockedUntil() != null) {
             if (LocalDateTime.now().isBefore(user.getLockedUntil())) {
-                logAudit(user.getId(), user.getUsername(), "LOGIN_FAILED", ipAddress, userAgent, "FAILED", "Account is locked");
+                logAudit(user.getId(), user.getUsername(), "LOGIN_FAILED", ipAddress, userAgent,
+                        "FAILED", "Account is locked");
                 return new AuthResponse("error", "Account is locked. Please try again later.");
             } else {
-                // Unlock account if lock time has passed
                 userRepository.lockAccount(user.getId(), false, null);
                 userRepository.updateFailedLoginAttempts(user.getId(), 0);
                 user.setAccountLocked(false);
@@ -63,13 +71,14 @@ public class AuthService {
             }
         }
 
-        // Check if user is active
+        // Inactive user
         if (!user.getActive()) {
-            logAudit(user.getId(), user.getUsername(), "LOGIN_FAILED", ipAddress, userAgent, "FAILED", "Account is inactive");
+            logAudit(user.getId(), user.getUsername(), "LOGIN_FAILED", ipAddress, userAgent,
+                    "FAILED", "Account is inactive");
             return new AuthResponse("error", "Account is inactive. Please contact administrator.");
         }
 
-        // Verify password
+        // Password check
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             int failedAttempts = user.getFailedLoginAttempts() + 1;
             userRepository.updateFailedLoginAttempts(user.getId(), failedAttempts);
@@ -77,13 +86,14 @@ public class AuthService {
             if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
                 LocalDateTime lockUntil = LocalDateTime.now().plusMinutes(LOCK_TIME_MINUTES);
                 userRepository.lockAccount(user.getId(), true, lockUntil);
-                logAudit(user.getId(), user.getUsername(), "ACCOUNT_LOCKED", ipAddress, userAgent, "SUCCESS",
-                        "Account locked due to " + MAX_FAILED_ATTEMPTS + " failed attempts");
-                return new AuthResponse("error", "Account locked due to multiple failed attempts. Try again in " + LOCK_TIME_MINUTES + " minutes.");
+                logAudit(user.getId(), user.getUsername(), "ACCOUNT_LOCKED", ipAddress, userAgent,
+                        "SUCCESS", "Account locked due to " + MAX_FAILED_ATTEMPTS + " failed attempts");
+                return new AuthResponse("error",
+                        "Account locked due to multiple failed attempts. Try again in " + LOCK_TIME_MINUTES + " minutes.");
             }
 
-            logAudit(user.getId(), user.getUsername(), "LOGIN_FAILED", ipAddress, userAgent, "FAILED",
-                    "Invalid password. Attempt " + failedAttempts + " of " + MAX_FAILED_ATTEMPTS);
+            logAudit(user.getId(), user.getUsername(), "LOGIN_FAILED", ipAddress, userAgent,
+                    "FAILED", "Invalid password. Attempt " + failedAttempts + " of " + MAX_FAILED_ATTEMPTS);
             return new AuthResponse("error", "Invalid username or password");
         }
 
@@ -92,28 +102,26 @@ public class AuthService {
         userRepository.updateLastLogin(user.getId(), LocalDateTime.now());
 
         String sessionId = UUID.randomUUID().toString();
-        logAudit(user.getId(), user.getUsername(), "LOGIN", ipAddress, userAgent, "SUCCESS", "User logged in successfully", sessionId);
+        logAudit(user.getId(), user.getUsername(), "LOGIN", ipAddress, userAgent,
+                "SUCCESS", "User logged in successfully", sessionId);
 
         AuthResponse response = new AuthResponse("success", "Login successful");
         response.setToken(sessionId);
         response.setUser(mapToUserDTO(user));
-
         return response;
     }
 
+    /* --------------------------------------------------------------------- */
+    /* -------------------------- REGISTER --------------------------------- */
+    /* --------------------------------------------------------------------- */
     @Transactional("authTransactionManager")
     public AuthResponse register(RegisterRequest request, String createdBy) {
-        // Check if username exists
         if (userRepository.existsByUsername(request.getUsername())) {
             return new AuthResponse("error", "Username already exists");
         }
-
-        // Check if email exists
         if (userRepository.existsByEmail(request.getEmail())) {
             return new AuthResponse("error", "Email already exists");
         }
-
-        // Validate role
         if (!isValidRole(request.getRole())) {
             return new AuthResponse("error", "Invalid role. Valid roles: ADMIN, USER, MANAGER");
         }
@@ -129,40 +137,61 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
 
-        logAudit(savedUser.getId(), savedUser.getUsername(), "USER_CREATED", null, null, "SUCCESS",
-                "User created by " + createdBy);
+        logAudit(savedUser.getId(), savedUser.getUsername(), "USER_CREATED",
+                null, null, "SUCCESS", "User created by " + createdBy);
 
         AuthResponse response = new AuthResponse("success", "User registered successfully");
         response.setUser(mapToUserDTO(savedUser));
-
         return response;
     }
 
+    /* --------------------------------------------------------------------- */
+    /* --------------------------- LOGOUT ---------------------------------- */
+    /* --------------------------------------------------------------------- */
     @Transactional("authTransactionManager")
     public void logout(String username, String ipAddress, String userAgent, String sessionId) {
         Optional<User> userOpt = userRepository.findByUsername(username);
         if (userOpt.isPresent()) {
-            logAudit(userOpt.get().getId(), username, "LOGOUT", ipAddress, userAgent, "SUCCESS",
-                    "User logged out", sessionId);
+            logAudit(userOpt.get().getId(), username, "LOGOUT", ipAddress, userAgent,
+                    "SUCCESS", "User logged out", sessionId);
         }
     }
 
-    public List<AuditLog> getUserAuditLogs(Long userId) {
-        return auditLogRepository.findByUserId(userId);
+    /* --------------------------------------------------------------------- */
+    /* --------------------------- AUDIT ----------------------------------- */
+    /* --------------------------------------------------------------------- */
+
+    public List<AuditLogDTO> getUserAuditLogs(Long userId) {
+        return auditLogRepository.findByUserId(userId)
+                .stream()
+                .map(this::mapToAuditLogDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<AuditLog> getAuditLogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        return auditLogRepository.findByDateRange(startDate, endDate);
+    public List<AuditLogDTO> getAuditLogsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return auditLogRepository.findByDateRange(startDate, endDate)
+                .stream()
+                .map(this::mapToAuditLogDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<AuditLog> getFailedLoginAttempts() {
-        return auditLogRepository.findByActionAndStatus("LOGIN_FAILED", "FAILED");
+    public List<AuditLogDTO> getFailedLoginAttempts() {
+        return auditLogRepository.findByActionAndStatus("LOGIN_FAILED", "FAILED")
+                .stream()
+                .map(this::mapToAuditLogDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<AuditLog> getApplicationAuditLogs(LocalDateTime startDate, LocalDateTime endDate) {
-        return auditLogRepository.findByApplicationNameAndDateRange(applicationName, startDate, endDate);
+    public List<AuditLogDTO> getApplicationAuditLogs(LocalDateTime startDate, LocalDateTime endDate) {
+        return auditLogRepository.findByApplicationNameAndDateRange(applicationName, startDate, endDate)
+                .stream()
+                .map(this::mapToAuditLogDTO)
+                .collect(Collectors.toList());
     }
 
+    /* --------------------------------------------------------------------- */
+    /* --------------------------- HELPERS --------------------------------- */
+    /* --------------------------------------------------------------------- */
     private void logAudit(Long userId, String username, String action, String ipAddress,
                           String userAgent, String status, String details) {
         logAudit(userId, username, action, ipAddress, userAgent, status, details, null);
@@ -183,6 +212,7 @@ public class AuthService {
         auditLogRepository.save(log);
     }
 
+    /** Map User → UserDTO (String dates) */
     private UserDTO mapToUserDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
@@ -190,13 +220,38 @@ public class AuthService {
         dto.setEmail(user.getEmail());
         dto.setRole(user.getRole());
         dto.setActive(user.getActive());
-        dto.setLastLogin(user.getLastLogin());
-        dto.setCreatedAt(user.getCreatedAt());
         dto.setApplicationName(user.getApplicationName());
+
+        dto.setLastLogin(user.getLastLogin() != null
+                ? user.getLastLogin().format(DATE_FORMAT)
+                : null);
+        dto.setCreatedAt(user.getCreatedAt() != null
+                ? user.getCreatedAt().format(DATE_FORMAT)
+                : null);
+        return dto;
+    }
+
+    /** Map AuditLog → AuditLogDTO (String timestamp) */
+    private AuditLogDTO mapToAuditLogDTO(AuditLog log) {
+        AuditLogDTO dto = new AuditLogDTO();
+        dto.setId(log.getId());
+        dto.setUserId(log.getUserId());
+        dto.setUsername(log.getUsername());
+        dto.setAction(log.getAction());
+        dto.setIpAddress(log.getIpAddress());
+        dto.setUserAgent(log.getUserAgent());
+        dto.setStatus(log.getStatus());
+        dto.setDetails(log.getDetails());
+        dto.setSessionId(log.getSessionId());
+        dto.setApplicationName(log.getApplicationName());
+
+        dto.setTimestamp(log.getTimestamp() != null
+                ? log.getTimestamp().format(DATE_FORMAT)
+                : null);
         return dto;
     }
 
     private boolean isValidRole(String role) {
-        return role.equals("ADMIN") || role.equals("USER") || role.equals("MANAGER");
+        return "ADMIN".equals(role) || "USER".equals(role) || "MANAGER".equals(role);
     }
 }

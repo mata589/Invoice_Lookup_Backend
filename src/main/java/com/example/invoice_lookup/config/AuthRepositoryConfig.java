@@ -1,7 +1,5 @@
 package com.example.invoice_lookup.config;
 
-
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -12,4 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         transactionManagerRef = "authTransactionManager"
 )
 public class AuthRepositoryConfig {
+    // This configuration tells Spring JPA to use the auth datasource
+    // for all repositories in the auth.repository package
 }

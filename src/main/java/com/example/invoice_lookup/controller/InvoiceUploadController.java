@@ -384,4 +384,50 @@ public class InvoiceUploadController {
 
         return response;
     }
+
+    /**
+     * Update Buyer Type for a Debit Note
+     * PATCH /api/debitNotes/{debitNo}/buyerType
+     * Body: { "value": "1" }  // "1" for individual, "0" for business
+     */
+    @PatchMapping("/debitNotes/{debitNo}/buyerType")
+    public Map<String, Object> updateBuyerType(
+            @PathVariable Integer debitNo,
+            @RequestBody @Valid UpdateFieldRequest request) {
+
+        Map<String, Object> response = new HashMap<>();
+        String newBuyerType = request.getValue();
+
+        if (newBuyerType == null || newBuyerType.trim().isEmpty()) {
+            response.put("status", "error");
+            response.put("message", "Buyer type value is required and cannot be empty");
+            return response;
+        }
+
+        // Validate that buyerType is either "0" or "1"
+        String trimmedType = newBuyerType.trim();
+        if (!trimmedType.equals("0") && !trimmedType.equals("1")) {
+            response.put("status", "error");
+            response.put("message", "Invalid buyer type. Use '1' for individual or '0' for business");
+            return response;
+        }
+
+        try {
+            boolean updated = debitNoteService.updateBuyerTypeByDebitNo(debitNo, trimmedType);
+            if (updated) {
+                response.put("status", "success");
+                response.put("message", "Buyer type updated successfully");
+                String typeDescription = trimmedType.equals("1") ? "Individual" : "Business";
+                response.put("buyerType", typeDescription);
+            } else {
+                response.put("status", "not_found");
+                response.put("message", "Debit note with debitNo " + debitNo + " not found or buyer type unchanged");
+            }
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", "Failed to update buyer type: " + e.getMessage());
+        }
+
+        return response;
+    }
 }

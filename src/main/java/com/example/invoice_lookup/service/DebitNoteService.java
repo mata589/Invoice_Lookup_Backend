@@ -123,5 +123,38 @@ public class DebitNoteService {
             return false;
         }
     }
+
+    /**
+     * Update the buyer type for a debit note identified by debitNo
+     *
+     * @param debitNo      the debit note number
+     * @param buyerType    the buyer type ("1" for individual, "0" for business)
+     * @return true if updated successfully, false otherwise
+     */
+    @Transactional
+    public boolean updateBuyerTypeByDebitNo(Integer debitNo, String buyerType) {
+        if (debitNo == null || buyerType == null || buyerType.trim().isEmpty()) {
+            logger.warn("Invalid input: debitNo or buyerType is null/empty");
+            return false;
+        }
+
+        // Validate buyerType is either "0" or "1"
+        String trimmedType = buyerType.trim();
+        if (!trimmedType.equals("0") && !trimmedType.equals("1")) {
+            logger.warn("Invalid buyerType value: {}. Must be '0' (business) or '1' (individual)", buyerType);
+            return false;
+        }
+
+        logger.info("Attempting to update buyer type for debitNo: {} to {}", debitNo, trimmedType);
+        int updatedRows = invoiceUploadRepository.updateBuyerTypeByDebitNo(debitNo, trimmedType);
+
+        if (updatedRows > 0) {
+            logger.info("Successfully updated buyer type for debitNo: {}", debitNo);
+            return true;
+        } else {
+            logger.warn("No record found or buyer type unchanged for debitNo: {}", debitNo);
+            return false;
+        }
+    }
 }
 

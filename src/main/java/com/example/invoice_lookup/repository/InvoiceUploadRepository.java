@@ -53,4 +53,10 @@ public interface InvoiceUploadRepository extends JpaRepository<InvoiceUpload, Lo
     @Transactional
     @Query(value = "UPDATE InvoiceUpload SET buyerTin = ?2 WHERE DebitNo = ?1", nativeQuery = true)
     int updateBuyerTinByDebitNo(Integer debitNo, String buyerTin);
+
+    // Update buyer type by debitNo
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE InvoiceUpload SET buyerType = ?2 WHERE DebitNo = ?1", nativeQuery = true)
+    int updateBuyerTypeByDebitNo(Integer debitNo, String buyerType);
 }

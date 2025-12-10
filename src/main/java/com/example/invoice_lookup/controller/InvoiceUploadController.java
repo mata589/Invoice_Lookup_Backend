@@ -108,7 +108,7 @@ public class InvoiceUploadController {
     }
 
     // ============================================
-    // CREDIT NOTE ENDPOINTS
+    // CREDIT NOTE ENDPOINTS (WITH ADDITIONAL FIELDS)
     // ============================================
 
     @GetMapping("/creditNotes/all")
@@ -127,7 +127,8 @@ public class InvoiceUploadController {
                 endDate = java.time.LocalDate.parse(endDateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE);
             }
 
-            List<CreditUpload> creditNotes = creditNoteService.getAllCreditNotes(startDate, endDate);
+            // ✅ UPDATED: Now fetches Doneby, Policyno, Debitref from FootPrintInsure database
+            List<CreditUpload> creditNotes = creditNoteService.getAllCreditNotesWithDetails(startDate, endDate);
             response.put("status", "success");
             response.put("total", creditNotes.size());
             response.put("startDate", startDate.toString());
@@ -156,7 +157,8 @@ public class InvoiceUploadController {
                 endDate = java.time.LocalDate.parse(endDateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE);
             }
 
-            List<CreditUpload> creditNotes = creditNoteService.getSuccessfulCreditNotes(startDate, endDate);
+            // ✅ UPDATED: Now fetches Doneby, Policyno, Debitref from FootPrintInsure database
+            List<CreditUpload> creditNotes = creditNoteService.getSuccessfulCreditNotesWithDetails(startDate, endDate);
             response.put("status", "success");
             response.put("total", creditNotes.size());
             response.put("startDate", startDate.toString());
@@ -185,7 +187,8 @@ public class InvoiceUploadController {
                 endDate = java.time.LocalDate.parse(endDateStr, java.time.format.DateTimeFormatter.ISO_LOCAL_DATE);
             }
 
-            List<CreditUpload> creditNotes = creditNoteService.getPendingCreditNotes(startDate, endDate);
+            // ✅ UPDATED: Now fetches Doneby, Policyno, Debitref from FootPrintInsure database
+            List<CreditUpload> creditNotes = creditNoteService.getPendingCreditNotesWithDetails(startDate, endDate);
             response.put("status", "success");
             response.put("total", creditNotes.size());
             response.put("startDate", startDate.toString());
@@ -199,9 +202,9 @@ public class InvoiceUploadController {
     }
 
 
-// DEBIT NOTE ENDPOINTS
-// Add these to your existing Controller class
-// ============================================
+    // ============================================
+    // DEBIT NOTE ENDPOINTS
+    // ============================================
 
     @GetMapping("/debitNotes/all")
     public Map<String, Object> getAllDebitNotes(
@@ -321,7 +324,7 @@ public class InvoiceUploadController {
     @PatchMapping("/debitNotes/{debitNo}/email")
     public Map<String, Object> updateBuyerEmail(
             @PathVariable Integer debitNo,
-            @RequestBody @Valid UpdateFieldRequest request) {  // <-- Use DTO + @Valid
+            @RequestBody @Valid UpdateFieldRequest request) {
 
         Map<String, Object> response = new HashMap<>();
         String newEmail = request.getValue();

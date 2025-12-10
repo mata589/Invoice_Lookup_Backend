@@ -1,7 +1,5 @@
-
-
 // ============================================
-// 2. CreditUpload Model
+// Updated CreditUpload Model with Additional Fields
 // ============================================
 package com.example.invoice_lookup.model;
 
@@ -50,7 +48,17 @@ public class CreditUpload {
     private String period;
     private Integer originalDebitNo;
 
-    // ✅ Getters and Setters
+    // ✅ NEW FIELDS - Fetched from external database
+    @Transient
+    private String doneby;
+
+    @Transient
+    private String policyno;
+
+    @Transient
+    private String debitref;
+
+    // ✅ Existing Getters and Setters
     public Integer getCreditId() { return creditId; }
     public void setCreditId(Integer creditId) { this.creditId = creditId; }
 
@@ -155,4 +163,14 @@ public class CreditUpload {
 
     public Integer getOriginalDebitNo() { return originalDebitNo; }
     public void setOriginalDebitNo(Integer originalDebitNo) { this.originalDebitNo = originalDebitNo; }
+
+    // ✅ NEW Getters and Setters for additional fields
+    public String getDoneby() { return doneby; }
+    public void setDoneby(String doneby) { this.doneby = doneby; }
+
+    public String getPolicyno() { return policyno; }
+    public void setPolicyno(String policyno) { this.policyno = policyno; }
+
+    public String getDebitref() { return debitref; }
+    public void setDebitref(String debitref) { this.debitref = debitref; }
 }
